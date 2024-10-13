@@ -1,8 +1,8 @@
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
-#include "AdditiomalMenu.h"
 #include <stdio.h>
+
 #define GL_SILENCE_DEPRECATION
 #if defined(IMGUI_IMPL_OPENGL_ES2)
 #include <GLES2/gl2.h>
@@ -11,10 +11,6 @@
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1900) && !defined(IMGUI_DISABLE_WIN32_FUNCTIONS)
 #pragma comment(lib, "legacy_stdio_definitions")
-#endif
-
-#ifdef __EMSCRIPTEN__
-#include "../libs/emscripten/emscripten_mainloop_stub.h"
 #endif
 
 static void glfw_error_callback(int error, const char* description)
@@ -45,7 +41,7 @@ int main(int, char**)
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
 #endif
 
-    GLFWwindow* window = glfwCreateWindow(1280, 720, "Clamp Social | Alpha 0.0.3.152", nullptr, nullptr);
+    GLFWwindow* window = glfwCreateWindow(1280, 720, "Resizable Folder Manager", nullptr, nullptr);
     if (window == nullptr)
         return 1;
     glfwMakeContextCurrent(window);
@@ -55,24 +51,24 @@ int main(int, char**)
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
 
-    ImGui::StyleColorsLight();
+    ImGui::StyleColorsDark();
 
     ImGui_ImplGlfw_InitForOpenGL(window, true);
-#ifdef __EMSCRIPTEN__
-    ImGui_ImplGlfw_InstallEmscriptenCallbacks(window, "#canvas");
-#endif
     ImGui_ImplOpenGL3_Init(glsl_version);
 
-    ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+    ImVec4 clear_color = ImVec4(0.07f, 0.07f, 0.10f, 1.00f);
 
-#ifdef __EMSCRIPTEN__
-    io.IniFilename = nullptr;
-    EMSCRIPTEN_MAINLOOP_BEGIN
-#else
+    const char* folders[] = { "Documents", "Pictures", "Projects", "Downloads" };
+    const char* files[] = { "file1.txt", "file2.png", "file3.docx", "file4.zip" };
+    int selected_folder = -1;
+    int selected_file = -1;
+
+    bool show_popup_menu = false;
+    bool show_add_folder_popup = false;
+    bool show_remove_folder_popup = false;
+
     while (!glfwWindowShouldClose(window))
-#endif
     {
         glfwPollEvents();
 
@@ -80,59 +76,160 @@ int main(int, char**)
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
-        ImGuiStyle& style = ImGui::GetStyle();
-        style.WindowRounding = 6.5f;
-        style.FrameRounding = 4.5f;
-        style.ScrollbarRounding = 0;
-        
-        style.Colors[ImGuiCol_Text]                  = ImVec4(0.90f, 0.90f, 0.90f, 0.90f);
-        style.Colors[ImGuiCol_TextDisabled]          = ImVec4(0.60f, 0.60f, 0.60f, 1.00f);
-        style.Colors[ImGuiCol_WindowBg]              = ImVec4(0.09f, 0.09f, 0.15f, 1.00f);
-        style.Colors[ImGuiCol_PopupBg]               = ImVec4(0.05f, 0.05f, 0.10f, 0.85f);
-        style.Colors[ImGuiCol_Border]                = ImVec4(0.70f, 0.70f, 0.70f, 0.65f);
-        style.Colors[ImGuiCol_BorderShadow]          = ImVec4(0.00f, 0.00f, 0.00f, 0.00f);
-        style.Colors[ImGuiCol_FrameBg]               = ImVec4(0.00f, 0.00f, 0.01f, 1.00f);
-        style.Colors[ImGuiCol_FrameBgHovered]        = ImVec4(0.90f, 0.80f, 0.80f, 0.40f);
-        style.Colors[ImGuiCol_FrameBgActive]         = ImVec4(0.90f, 0.65f, 0.65f, 0.45f);
-        style.Colors[ImGuiCol_TitleBg]               = ImVec4(0.00f, 0.00f, 0.00f, 0.83f);
-        style.Colors[ImGuiCol_TitleBgCollapsed]      = ImVec4(0.40f, 0.40f, 0.80f, 0.20f);
-        style.Colors[ImGuiCol_TitleBgActive]         = ImVec4(0.00f, 0.00f, 0.00f, 0.87f);
-        style.Colors[ImGuiCol_MenuBarBg]             = ImVec4(0.01f, 0.01f, 0.02f, 0.80f);
-        style.Colors[ImGuiCol_ScrollbarBg]           = ImVec4(0.20f, 0.25f, 0.30f, 0.60f);
-        style.Colors[ImGuiCol_ScrollbarGrab]         = ImVec4(0.55f, 0.53f, 0.55f, 0.51f);
-        style.Colors[ImGuiCol_ScrollbarGrabHovered]  = ImVec4(0.56f, 0.56f, 0.56f, 1.00f);
-        style.Colors[ImGuiCol_ScrollbarGrabActive]   = ImVec4(0.56f, 0.56f, 0.56f, 0.91f);
-        style.Colors[ImGuiCol_CheckMark]             = ImVec4(0.90f, 0.90f, 0.90f, 0.83f);
-        style.Colors[ImGuiCol_SliderGrab]            = ImVec4(0.70f, 0.70f, 0.70f, 0.62f);
-        style.Colors[ImGuiCol_SliderGrabActive]      = ImVec4(0.30f, 0.30f, 0.30f, 0.84f);
-        style.Colors[ImGuiCol_Button]                = ImVec4(0.48f, 0.72f, 0.89f, 0.49f);
-        style.Colors[ImGuiCol_ButtonHovered]         = ImVec4(0.50f, 0.69f, 0.99f, 0.68f);
-        style.Colors[ImGuiCol_ButtonActive]          = ImVec4(0.80f, 0.50f, 0.50f, 1.00f);
-        style.Colors[ImGuiCol_Header]                = ImVec4(0.30f, 0.69f, 1.00f, 0.53f);
-        style.Colors[ImGuiCol_HeaderHovered]         = ImVec4(0.44f, 0.61f, 0.86f, 1.00f);
-        style.Colors[ImGuiCol_HeaderActive]          = ImVec4(0.38f, 0.62f, 0.83f, 1.00f);
-        style.Colors[ImGuiCol_ResizeGrip]            = ImVec4(1.00f, 1.00f, 1.00f, 0.85f);
-        style.Colors[ImGuiCol_ResizeGripHovered]     = ImVec4(1.00f, 1.00f, 1.00f, 0.60f);
-        style.Colors[ImGuiCol_ResizeGripActive]      = ImVec4(1.00f, 1.00f, 1.00f, 0.90f);
-        style.Colors[ImGuiCol_PlotLines]             = ImVec4(1.00f, 1.00f, 1.00f, 1.00f);
-        style.Colors[ImGuiCol_PlotLinesHovered]      = ImVec4(0.90f, 0.70f, 0.00f, 1.00f);
-        style.Colors[ImGuiCol_PlotHistogram]         = ImVec4(0.90f, 0.70f, 0.00f, 1.00f);
-        style.Colors[ImGuiCol_PlotHistogramHovered]  = ImVec4(1.00f, 0.60f, 0.00f, 1.00f);
-        style.Colors[ImGuiCol_TextSelectedBg]        = ImVec4(0.00f, 0.00f, 1.00f, 0.35f);
-
+        // Navbar (верхнее меню)
+        if (ImGui::BeginMainMenuBar())
         {
-            ImGui::Begin("Main Frame");
-
-            ImGui::Text("Background Color:");
-            ImGui::ColorEdit3("clear color", (float*)&clear_color);
-
-            if (ImGui::Button("Start"))
+            if (ImGui::BeginMenu("File"))
             {
-                printf("Starting additional menu!\n");
+                if (ImGui::MenuItem("Open", "Ctrl+O")) {}
+                if (ImGui::MenuItem("Save", "Ctrl+S")) {}
+                ImGui::Separator();
+                if (ImGui::MenuItem("Exit", "Alt+F4")) { glfwSetWindowShouldClose(window, true); }
+                ImGui::EndMenu();
+            }
+            if (ImGui::BeginMenu("Edit"))
+            {
+                if (ImGui::MenuItem("Undo", "Ctrl+Z")) {}
+                if (ImGui::MenuItem("Redo", "Ctrl+Y")) {}
+                ImGui::EndMenu();
+            }
+            if (ImGui::BeginMenu("Help"))
+            {
+                if (ImGui::MenuItem("About")) {}
+                ImGui::EndMenu();
+            }
+            ImGui::EndMainMenuBar();
+        }
+
+        // Главное окно с папками
+        ImGui::SetNextWindowSize(ImVec2(ImGui::GetIO().DisplaySize.x * 0.3f, ImGui::GetIO().DisplaySize.y * 0.75f), ImGuiCond_Always);
+        ImGui::SetNextWindowPos(ImVec2(0, ImGui::GetIO().DisplaySize.y * 0.05f), ImGuiCond_Always);
+        ImGui::Begin("Folders", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
+
+        ImGui::Text("Favorite Folders:");
+        ImGui::Separator();
+
+        for (int i = 0; i < IM_ARRAYSIZE(folders); i++) {
+            if (ImGui::Selectable(folders[i], selected_folder == i)) {
+                selected_folder = i;
             }
 
-            ImGui::Text("Application asverage %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
-            ImGui::End();
+            // Popup menu на правую кнопку
+            if (ImGui::IsItemClicked(ImGuiMouseButton_Right)) {
+                show_popup_menu = true;
+                selected_folder = i;
+            }
+        }
+
+        // Добавим несколько кнопок для управления папками
+        if (ImGui::Button("Add Folder")) {
+            show_add_folder_popup = true;
+        }
+        ImGui::SameLine();
+        if (ImGui::Button("Remove Folder") && selected_folder != -1) {
+            show_remove_folder_popup = true;
+        }
+
+        ImGui::End();
+
+        // Окно с файлами
+        ImGui::SetNextWindowSize(ImVec2(ImGui::GetIO().DisplaySize.x * 0.7f, ImGui::GetIO().DisplaySize.y * 0.75f), ImGuiCond_Always);
+        ImGui::SetNextWindowPos(ImVec2(ImGui::GetIO().DisplaySize.x * 0.3f, ImGui::GetIO().DisplaySize.y * 0.05f), ImGuiCond_Always);
+        ImGui::Begin("Files in Selected Folder", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
+
+        if (selected_folder != -1) {
+            ImGui::Text("Files in folder: %s", folders[selected_folder]);
+            ImGui::Separator();
+
+            for (int i = 0; i < IM_ARRAYSIZE(files); i++) {
+                if (ImGui::Selectable(files[i], selected_file == i)) {
+                    selected_file = i;
+                }
+
+                // Popup menu на файлы
+                if (ImGui::IsItemClicked(ImGuiMouseButton_Right)) {
+                    show_popup_menu = true;
+                    selected_file = i;
+                }
+            }
+        } else {
+            ImGui::Text("Select a folder to view its files.");
+        }
+
+        ImGui::End();
+
+        // Панель информации
+        ImGui::SetNextWindowSize(ImVec2(ImGui::GetIO().DisplaySize.x, ImGui::GetIO().DisplaySize.y * 0.2f), ImGuiCond_Always);
+        ImGui::SetNextWindowPos(ImVec2(0, ImGui::GetIO().DisplaySize.y * 0.8f), ImGuiCond_Always);
+        ImGui::Begin("Info Panel", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
+
+        if (selected_file != -1) {
+            ImGui::Text("Selected File: %s", files[selected_file]);
+        } else if (selected_folder != -1) {
+            ImGui::Text("Selected Folder: %s", folders[selected_folder]);
+        } else {
+            ImGui::Text("Select a folder or file to view details.");
+        }
+
+        ImGui::End();
+
+        // Popup меню
+        if (show_popup_menu) {
+            if (ImGui::BeginPopupContextWindow()) {
+                if (selected_folder != -1) {
+                    ImGui::Text("Actions for folder: %s", folders[selected_folder]);
+                    if (ImGui::MenuItem("Open")) {}
+                    if (ImGui::MenuItem("Rename")) {}
+                    if (ImGui::MenuItem("Delete")) {}
+                } else if (selected_file != -1) {
+                    ImGui::Text("Actions for file: %s", files[selected_file]);
+                    if (ImGui::MenuItem("Open")) {}
+                    if (ImGui::MenuItem("Rename")) {}
+                    if (ImGui::MenuItem("Delete")) {}
+                }
+                ImGui::EndPopup();
+            }
+            show_popup_menu = false;
+        }
+
+        // Popup окно для добавления папки
+        if (show_add_folder_popup) {
+            ImGui::OpenPopup("Add Folder");
+        }
+        if (ImGui::BeginPopupModal("Add Folder", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
+            ImGui::Text("Enter the name of the folder:");
+            static char new_folder_name[128] = "";
+            ImGui::InputText("##newfolder", new_folder_name, IM_ARRAYSIZE(new_folder_name));
+
+            if (ImGui::Button("Add")) {
+                // Добавление папки (логика будет здесь)
+                ImGui::CloseCurrentPopup();
+            }
+            ImGui::SameLine();
+            if (ImGui::Button("Cancel")) {
+                ImGui::CloseCurrentPopup();
+            }
+            ImGui::EndPopup();
+            show_add_folder_popup = false;
+        }
+
+        // Popup окно для удаления папки
+        if (show_remove_folder_popup) {
+            ImGui::OpenPopup("Remove Folder");
+        }
+        if (ImGui::BeginPopupModal("Remove Folder", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
+            ImGui::Text("Are you sure you want to remove the folder: %s?", folders[selected_folder]);
+
+            if (ImGui::Button("Yes")) {
+                // Удаление папки (логика будет здесь)
+                ImGui::CloseCurrentPopup();
+            }
+            ImGui::SameLine();
+            if (ImGui::Button("No")) {
+                ImGui::CloseCurrentPopup();
+            }
+            ImGui::EndPopup();
+            show_remove_folder_popup = false;
         }
 
         ImGui::Render();
@@ -145,9 +242,7 @@ int main(int, char**)
 
         glfwSwapBuffers(window);
     }
-#ifdef __EMSCRIPTEN__
-    EMSCRIPTEN_MAINLOOP_END;
-#endif
+
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();

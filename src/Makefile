@@ -15,6 +15,10 @@ SOURCES += $(IMGUI_DIR)/imgui/imgui.cpp \
 
 OBJS = $(addsuffix .o, $(basename $(notdir $(SOURCES))))
 
+##---------------------------------------------------------------------
+## BUILD FOR YOUR GAVNO-SYSTEM
+##---------------------------------------------------------------------
+
 ifeq ($(OS), Windows_NT)
     ECHO_MESSAGE = "Windows"
     CXX = g++
