@@ -3,6 +3,8 @@
 #include "imgui_impl_opengl3.h"
 #include <stdio.h>
 
+#include "Theme.h"
+
 #define GL_SILENCE_DEPRECATION
 #if defined(IMGUI_IMPL_OPENGL_ES2)
 #include <GLES2/gl2.h>
@@ -52,17 +54,19 @@ int main(int, char**)
     ImGuiIO& io = ImGui::GetIO(); (void)io;
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
 
-    ImGui::StyleColorsDark();
 
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init(glsl_version);
 
     ImVec4 clear_color = ImVec4(0.07f, 0.07f, 0.10f, 1.00f);
 
+
+    //// ---------------------------------->
     const char* folders[] = { "Documents", "Pictures", "Projects", "Downloads" };
-    const char* files[] = { "file1.txt", "file2.png", "file3.docx", "file4.zip" };
+    const char* files[] = { "hueta.txt", "hueta.png", "hueta.docx", "hueta.zip" };
     int selected_folder = -1;
     int selected_file = -1;
+    //// ---------------------------------->
 
     bool show_popup_menu = false;
     bool show_add_folder_popup = false;
@@ -81,8 +85,9 @@ int main(int, char**)
         {
             if (ImGui::BeginMenu("File"))
             {
-                if (ImGui::MenuItem("Open", "Ctrl+O")) {}
-                if (ImGui::MenuItem("Save", "Ctrl+S")) {}
+                if (ImGui::MenuItem("Open", "Ctrl+O")) { printf("Open File\n"); }
+                if (ImGui::MenuItem("Save", "Ctrl+S")) { printf("Save File\n"); }
+                if (ImGui::MenuItem("Text Editor", "Ctrl+E")) { printf("Edit File\n"); }
                 ImGui::Separator();
                 if (ImGui::MenuItem("Exit", "Alt+F4")) { glfwSetWindowShouldClose(window, true); }
                 ImGui::EndMenu();
@@ -91,6 +96,51 @@ int main(int, char**)
             {
                 if (ImGui::MenuItem("Undo", "Ctrl+Z")) {}
                 if (ImGui::MenuItem("Redo", "Ctrl+Y")) {}
+                ImGui::EndMenu();
+            }
+            if (ImGui::BeginMenu("Unreal Engine 5"))
+            {
+                if (ImGui::MenuItem("Add you're path of UE5 Regenerate Project"))
+                {
+                    
+                }
+
+                ImGui::Separator();
+                
+                if (ImGui::MenuItem("Regenerate As Windoows"))
+                {
+
+                }
+                if (ImGui::MenuItem("Regenerate As Linux"))
+                {
+
+                }
+                if (ImGui::MenuItem("Regenerate As Mac"))
+                {
+
+                }
+
+                ImGui::Separator();
+
+                if (ImGui::MenuItem("Open UE5 Project", "Alt+S"))
+                {
+
+                }
+                ImGui::EndMenu();
+            }
+            if (ImGui::BeginMenu("Directories"))
+            {
+                if (ImGui::MenuItem("Add Path"))
+                {
+                    
+                }
+
+                ImGui::Separator();
+
+                if (ImGui::MenuItem("Import Project from ZIP/TAR.GZ"))
+                {
+
+                }
                 ImGui::EndMenu();
             }
             if (ImGui::BeginMenu("Help"))
@@ -152,6 +202,23 @@ int main(int, char**)
                     selected_file = i;
                 }
             }
+            ImGui::Separator();
+            
+            ImGui::Dummy(ImVec2(0.f, 50.f)); // Padding up: 50 px
+
+            if (ImGui::Button("Open file"))
+            {
+                // Logic
+            }
+            if (ImGui::Button("Delete file"))
+            {
+                // Logic 
+            }
+            if (ImGui::Button("Move file"))
+            {
+                // Logic
+            }
+            
         } else {
             ImGui::Text("Select a folder to view its files.");
         }
@@ -173,7 +240,6 @@ int main(int, char**)
 
         ImGui::End();
 
-        // Popup меню
         if (show_popup_menu) {
             if (ImGui::BeginPopupContextWindow()) {
                 if (selected_folder != -1) {
@@ -192,11 +258,14 @@ int main(int, char**)
             show_popup_menu = false;
         }
 
-        // Popup окно для добавления папки
         if (show_add_folder_popup) {
             ImGui::OpenPopup("Add Folder");
         }
         if (ImGui::BeginPopupModal("Add Folder", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
+            ImGui::Text("Enter your path for folder:");
+            static char path_for_folder[512] = "";
+            ImGui::InputText("##newpath", path_for_folder, IM_ARRAYSIZE(path_for_folder));
+
             ImGui::Text("Enter the name of the folder:");
             static char new_folder_name[128] = "";
             ImGui::InputText("##newfolder", new_folder_name, IM_ARRAYSIZE(new_folder_name));
