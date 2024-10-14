@@ -150,7 +150,43 @@ CMakeFiles/imgui_demo.dir/Source/Private/AdditiomalMenu.cpp.obj: C:/Users/kamil/
   C:/Users/kamil/OneDrive/Desktop/imgui_demo/imgui/imconfig.h \
   C:/Users/kamil/OneDrive/Desktop/imgui_demo/imgui/imgui.h
 
-CMakeFiles/imgui_demo.dir/Source/Private/Theme.cpp.obj: C:/Users/kamil/OneDrive/Desktop/imgui_demo/Source/Private/Theme.cpp
+CMakeFiles/imgui_demo.dir/Source/Private/Theme.cpp.obj: C:/Users/kamil/OneDrive/Desktop/imgui_demo/Source/Private/Theme.cpp \
+  C:/MinGW/include/c++/13.2.0/bits/std_abs.h \
+  C:/MinGW/include/c++/13.2.0/cstdlib \
+  C:/MinGW/include/c++/13.2.0/pstl/pstl_config.h \
+  C:/MinGW/include/c++/13.2.0/stdlib.h \
+  C:/MinGW/include/c++/13.2.0/x86_64-w64-mingw32/bits/c++config.h \
+  C:/MinGW/include/c++/13.2.0/x86_64-w64-mingw32/bits/cpu_defines.h \
+  C:/MinGW/include/c++/13.2.0/x86_64-w64-mingw32/bits/os_defines.h \
+  C:/MinGW/lib/gcc/x86_64-w64-mingw32/13.2.0/include/float.h \
+  C:/MinGW/lib/gcc/x86_64-w64-mingw32/13.2.0/include/limits.h \
+  C:/MinGW/lib/gcc/x86_64-w64-mingw32/13.2.0/include/mm_malloc.h \
+  C:/MinGW/lib/gcc/x86_64-w64-mingw32/13.2.0/include/stdarg.h \
+  C:/MinGW/lib/gcc/x86_64-w64-mingw32/13.2.0/include/stddef.h \
+  C:/MinGW/lib/gcc/x86_64-w64-mingw32/13.2.0/include/syslimits.h \
+  C:/MinGW/x86_64-w64-mingw32/include/_mingw.h \
+  C:/MinGW/x86_64-w64-mingw32/include/_mingw_mac.h \
+  C:/MinGW/x86_64-w64-mingw32/include/_mingw_secapi.h \
+  C:/MinGW/x86_64-w64-mingw32/include/_mingw_stdarg.h \
+  C:/MinGW/x86_64-w64-mingw32/include/assert.h \
+  C:/MinGW/x86_64-w64-mingw32/include/corecrt.h \
+  C:/MinGW/x86_64-w64-mingw32/include/corecrt_wstdlib.h \
+  C:/MinGW/x86_64-w64-mingw32/include/crtdefs.h \
+  C:/MinGW/x86_64-w64-mingw32/include/errno.h \
+  C:/MinGW/x86_64-w64-mingw32/include/float.h \
+  C:/MinGW/x86_64-w64-mingw32/include/limits.h \
+  C:/MinGW/x86_64-w64-mingw32/include/malloc.h \
+  C:/MinGW/x86_64-w64-mingw32/include/sdks/_mingw_ddk.h \
+  C:/MinGW/x86_64-w64-mingw32/include/sec_api/stdlib_s.h \
+  C:/MinGW/x86_64-w64-mingw32/include/sec_api/string_s.h \
+  C:/MinGW/x86_64-w64-mingw32/include/stdarg.h \
+  C:/MinGW/x86_64-w64-mingw32/include/stddef.h \
+  C:/MinGW/x86_64-w64-mingw32/include/stdlib.h \
+  C:/MinGW/x86_64-w64-mingw32/include/string.h \
+  C:/MinGW/x86_64-w64-mingw32/include/vadefs.h \
+  C:/Users/kamil/OneDrive/Desktop/imgui_demo/Source/Public/Theme.h \
+  C:/Users/kamil/OneDrive/Desktop/imgui_demo/imgui/imconfig.h \
+  C:/Users/kamil/OneDrive/Desktop/imgui_demo/imgui/imgui.h
 
 CMakeFiles/imgui_demo.dir/backends/imgui_impl_glfw.cpp.obj: C:/Users/kamil/OneDrive/Desktop/imgui_demo/backends/imgui_impl_glfw.cpp \
   C:/MinGW/include/c++/13.2.0/bits/std_abs.h \
@@ -1992,6 +2028,10 @@ C:/Users/kamil/OneDrive/Desktop/imgui_demo/imgui/imconfig.h:
 
 C:/Users/kamil/OneDrive/Desktop/imgui_demo/imgui/imgui.h:
 
+C:/MinGW/lib/gcc/x86_64-w64-mingw32/13.2.0/include/avx512bf16vlintrin.h:
+
+C:/Users/kamil/OneDrive/Desktop/imgui_demo/Source/Public/Theme.h:
+
 C:/MinGW/x86_64-w64-mingw32/include/wincon.h:
 
 C:/Users/kamil/OneDrive/Desktop/imgui_demo/backends/imgui_impl_glfw.cpp:
@@ -2017,10 +2057,6 @@ C:/MinGW/lib/gcc/x86_64-w64-mingw32/13.2.0/include/avx5124fmapsintrin.h:
 C:/MinGW/lib/gcc/x86_64-w64-mingw32/13.2.0/include/cmpccxaddintrin.h:
 
 C:/MinGW/lib/gcc/x86_64-w64-mingw32/13.2.0/include/avx5124vnniwintrin.h:
-
-C:/Users/kamil/OneDrive/Desktop/imgui_demo/Source/Public/Theme.h:
-
-C:/MinGW/lib/gcc/x86_64-w64-mingw32/13.2.0/include/avx512bf16vlintrin.h:
 
 C:/MinGW/x86_64-w64-mingw32/include/concurrencysal.h:
 

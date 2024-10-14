@@ -43,7 +43,7 @@ int main(int, char**)
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
 #endif
 
-    GLFWwindow* window = glfwCreateWindow(1280, 720, "Resizable Folder Manager", nullptr, nullptr);
+    GLFWwindow* window = glfwCreateWindow(1280, 720, "Clamp-Social | UE5", nullptr, nullptr);
     if (window == nullptr)
         return 1;
     glfwMakeContextCurrent(window);
@@ -54,6 +54,8 @@ int main(int, char**)
     ImGuiIO& io = ImGui::GetIO(); (void)io;
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
 
+    ApplicationTheme SetTheme;
+    SetTheme.SetApplicationTheme();
 
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init(glsl_version);
@@ -142,6 +144,10 @@ int main(int, char**)
 
                 }
                 ImGui::EndMenu();
+            }
+            if (ImGui::BeginMenu("Perforce"))
+            {
+
             }
             if (ImGui::BeginMenu("Help"))
             {
